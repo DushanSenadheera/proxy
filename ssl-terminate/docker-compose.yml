@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  server1:
+    build:
+      context: ./server1
+    container_name: servera
+    ports:
+      - "3080:3080"
+
+  server2:
+    build:
+      context: ./server2
+    container_name: serverb
+    ports:
+      - "3081:3081"
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/cert:/etc/nginx/
+    depends_on:
+      - server1
+      - server2
